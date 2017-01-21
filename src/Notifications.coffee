@@ -2,6 +2,7 @@ class Notifications
 	constructor: (@elem) ->
 		@
 
+	# TODO: add unit tests
 	test: ->
 		setTimeout (=>
 			@add("connection", "error", "Connection lost to <b>UiServer</b> on <b>localhost</b>!")
@@ -234,5 +235,77 @@ class Notifications
 			value = value.replace(/&lt;([\/]{0,1}(br|b|u|i))&gt;/g, "<$1>") # Unescape b, i, u, br tags
 			values[i] = value
 		return values
+
+class Notification
+		constructor: (@main,message) -> #(@id, @type, @body, @timeout=0) ->
+			@main_elem=@main.elem
+			@id = message.id.replace /[^A-Za-z0-9]/g, ""
+			# Close notifications with same id
+			for elem in $(".notification-#{@id}")
+				@close $(elem) # TODO: fix this to use Notifications.get(id) and throw
+
+			# Create element
+			@elem = $(".notification.notificationTemplate", @main_elem).clone().removeClass("notificationTemplate") # TODO: get elem from notifications
+			@elem.addClass("notification-#{type}").addClass("notification-#{id}")
+			if type == "progress"
+				@elem.addClass("notification-done")
+
+			# Update text
+			updateText(type)
+				#$(".notification-icon", elem).html("i")
+
+			if typeof(body) == "string"
+				$(".body", elem).html("<span class='message'>"+escape(message.body)+"</span>")
+			else
+				$(".body", elem).html("").append(body)
+
+			elem.appendTo(@elem)
+
+			# Timeout
+			if timeout
+				$(".close", elem).remove() # No need of close button
+				setTimeout (=>
+					@close elem
+				), timeout
+
+			# Animate
+			width = elem.outerWidth()
+			if not timeout then width += 20 # Add space for close button
+			if elem.outerHeight() > 55 then elem.addClass("long")
+			elem.css({"width": "50px", "transform": "scale(0.01)"})
+			elem.animate({"scale": 1}, 800, "easeOutElastic")
+			elem.animate({"width": width}, 700, "easeInOutCubic")
+			$(".body", elem).cssLater("box-shadow", "0px 0px 5px rgba(0,0,0,0.1)", 1000)
+
+			# Close button or Confirm button
+			$(".close, .button", elem).on "click", =>
+				@close elem
+				return false
+
+			# Select list
+			$(".select", elem).on "click", =>
+				@close elem
+
+			@elem=elem
+			@
+
+	escape: (value) ->
+ 		return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/&lt;([\/]{0,1}(br|b|u|i))&gt;/g, "<$1>") # Escape and Unescape b, i, u, br tags
+
+	updateText: (type) ->
+		if type == "error"
+			$(".notification-icon", @elem).html("!")
+		else if type == "done"
+			$(".notification-icon", @elem).html("<div class='icon-success'></div>")
+		else if type == "progress"
+			$(".notification-icon", @elem).html("<div class='icon-success'></div>")
+		else if type == "ask"
+			$(".notification-icon", @elem).html("?")
+		else
+			throw new Error("UnknownNotificationType: Type "+type+"is not known")
+
+	close: () ->
+
+
 
 window.Notifications = Notifications
