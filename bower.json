@@ -5,7 +5,7 @@
     "mkg20001 <mkg20001@gmail.com>"
   ],
   "description": "ZeroNet Notifications, extracted from ZeroNet",
-  "main": "dist/main.js",
+  "main": "dist/zeronet-notifications.js",
   "keywords": [
     "notifications",
     "prompts"
