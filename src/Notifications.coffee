@@ -140,7 +140,11 @@ class Notification
 
 	setBody: (body) ->
 		@body=body
-		@rebuildMsg @append
+		if typeof(@body) == "string"
+			@body=$("<span>"+@escape(@body)+"</span>")
+			$(".body .message", @elem).empty().append(@body)
+		else
+			$(".body .message", @elem).empty().append(@body)
 		@resizeBox()
 		return @
 
@@ -197,7 +201,8 @@ class Notification
 		"""
 		width = $(".body .message", @elem).outerWidth()
 		#$(".body .message", @elem).html(message.params[1])
-		@rebuildMsg circle
+		if not $(".circle", @elem).length
+			@rebuildMsg circle
 		if $(".body .message", @elem).css("width") == ""
 			$(".body .message", @elem).css("width", width)
 		$(".body .circle-fg", @elem).css("stroke-dashoffset", offset)
