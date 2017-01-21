@@ -63,8 +63,16 @@
       if (p == 10) {
         clearInterval(intv)
       }
-      p2++
       p++
+    }, 1000)
+    var msg2 = n.add(id(), "progress", "Failing progress notification", 3000)
+    const intv2 = setInterval(function() {
+      if (p2 == 5) {
+        clearInterval(intv2)
+        p2=-1
+      }
+      msg2.setBody("Failing progress notification (" + p2 + "/5)").setProgress(p2 * 10)
+      p2++
     }, 1000)
   }, i * m)
   delay("info", "Auto closing notification", 5000)

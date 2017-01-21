@@ -43,7 +43,6 @@ class Notification
 	constructor: (@main,message) -> #(@id, @type, @body, @timeout=0) ->
 		@main_elem=@main.elem
 		@options=message.options
-		console.log(message)
 		@cb=message.cb
 		@id = message.id.replace /[^A-Za-z0-9]/g, ""
 
@@ -130,11 +129,11 @@ class Notification
 		@cb(event,res)
 
 	rebuildMsg: (append) ->
-		@append=append
+		@append=$(append)
 		if typeof(@body) == "string"
-			$(".body", @elem).html("<span class='message'>"+@escape(@body)+"</span>"+append)
+			$(".body", @elem).html("<span class='message'>"+@escape(@body)+"</span>").append(@append)
 		else
-			$(".body", @elem).html("").append(@body).append($(append))
+			$(".body", @elem).html("").append(@body,@append)
 
 	escape: (value) ->
  		return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/&lt;([\/]{0,1}(br|b|u|i))&gt;/g, "<$1>") # Escape and Unescape b, i, u, br tags
@@ -251,5 +250,6 @@ class Notification
 		@elem.stop().animate {"width": 0, "opacity": 0}, 700, "easeInOutCubic"
 		elem=@elem
 		@elem.slideUp 300, (-> elem.remove())
+		return @main
 
 window.Notifications = Notifications
