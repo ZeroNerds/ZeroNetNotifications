@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>ZeroNetNotifications | Try it!</title>
+  <link rel="stylesheet" href="main.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #D2CECD;
+      overflow: hidden
+    }
+
+    body.back {
+      background-color: #090909
+    }
+
+    a {
+      color: black
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Notifications -->
+  <div class="notifications">
+    <div class="notification notificationTemplate"><span class="notification-icon">!</span> <span class="body">Test notification</span><a class="close" href="#Close">&times;</a>
+      <div style="clear: both"></div>
+    </div>
+  </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+<script src="jquery.cssanim.js"></script>
+<script src="jquery.easing.1.3.js"></script>
+<script src="jquery.csslater.js"></script>
+<script src="Notifications.js"></script>
+<script>
+  const n = new Notifications($(".notifications"))
+  var i = 0
+  const m = 500
+
+  function id() {
+    return "msg" + (i++)
+  }
+
+  function delay(b, c, d) {
+    const a = id()
+    setTimeout(n.add.bind(n), i * m, a, b, c, d)
+    return a
+  }
+  delay("done", "Success notification", 0)
+  delay("error", "Error notification", 0)
+  delay("info", "Info notification", 0)
+  delay("ask", "Ask notification", 0)
+    //const p=delay("progress", "Progress Notification", 0)
+  var p = 0
+  var p2 = 0
+  var pid = id()
+  setTimeout(function() {
+    n.actionProgress({
+      id: pid,
+      percent: p * 10,
+      content: "Progress notification (" + p + "/10)",
+      autoClose: true
+    })
+    const intv = setInterval(function() {
+      n.actionProgress({
+        id: pid,
+        percent: p * 10,
+        content: "Progress notification (" + p + "/10)",
+        autoClose: true
+      })
+      if (p == 10) {
+        clearInterval(intv)
+          /*p = 0
+        pid = id()
+      }
+      if (p2 == 30) {
+        clearInterval(intv)*/
+      }
+      p2++
+      p++
+    }, 1000)
+  }, i * m)
+  delay("info", "Auto closing notification", 5000)
+
+  function prompt1() {
+    n.displayPrompt("Type something", "info", "Ok", function(res) {
+      n.add(id(), res ? "done" : "error", res ? ("You typed: " + res) : "You typed, nothing!", 3000)
+      setTimeout(prompt1, 3000)
+    })
+  }
+
+  function prompt2() {
+    n.displayConfirm("Confirm me?", "Ok", "Cancel", function(res) {
+      if (res) n.add(id(), "done", "Confirmed", 3000);
+      else n.add(id(), "error", "Canceled", 3000)
+      setTimeout(prompt2, 3000)
+    })
+  }
+  setTimeout(prompt1, (i + 1) * m)
+  setTimeout(prompt2, (i + 2) * m)
+    //delay("in", "in")
+</script>
+
+</html>
