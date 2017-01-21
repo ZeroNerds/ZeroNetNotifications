@@ -1,10 +1,10 @@
 clean:
 	rm -fv src/*.js
+	rm -fv src/*.js.map
 	rm -rfv dist
 watch:
-	nodemon -i dist -e coffee,css -x make build
+	nodemon -e coffee,css -i dist -x make dev-build
 build:
-	mkdir -p dist
-	coffee --compile src/*.coffee
-	cat src/*.js > dist/zeronet-notifications.js
-	cp src/main.css dist/zeronet-notifications.css
+	gulp
+dev-build:
+	gulp dev
