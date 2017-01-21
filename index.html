@@ -53,31 +53,15 @@
   delay("error", "Error notification", 0)
   delay("info", "Info notification", 0)
   delay("ask", "Ask notification", 0)
-    //const p=delay("progress", "Progress Notification", 0)
   var p = 0
   var p2 = 0
   var pid = id()
   setTimeout(function() {
-    n.actionProgress({
-      id: pid,
-      percent: p * 10,
-      content: "Progress notification (" + p + "/10)",
-      autoClose: true
-    })
+    var msg = n.add(id(), "progress", "Progress notification", 3000)
     const intv = setInterval(function() {
-      n.actionProgress({
-        id: pid,
-        percent: p * 10,
-        content: "Progress notification (" + p + "/10)",
-        autoClose: true
-      })
+      msg.setBody("Progress notification (" + p + "/10)").setProgress(p * 10)
       if (p == 10) {
         clearInterval(intv)
-          /*p = 0
-        pid = id()
-      }
-      if (p2 == 30) {
-        clearInterval(intv)*/
       }
       p2++
       p++
@@ -86,22 +70,35 @@
   delay("info", "Auto closing notification", 5000)
 
   function prompt1() {
-    n.displayPrompt("Type something", "info", "Ok", function(res) {
-      n.add(id(), res ? "done" : "error", res ? ("You typed: " + res) : "You typed, nothing!", 3000)
+    n.add(id(), "prompt", "Type something", 0, {
+      cancel_label: "Cancel",
+      confirm_label: "Ok"
+    }, function(event, res) {
+      if (event == "auto" || event == "user" || typeof res == "boolean") {
+        n.add(id(), "error", "You " + (event == "user" ? "closed" : "canceled") + " the message", 3000)
+      } else {
+        n.add(id(), res ? "done" : "error", res ? ("You typed: " + res) : "You typed, nothing!", 3000)
+      }
       setTimeout(prompt1, 3000)
     })
   }
 
   function prompt2() {
-    n.displayConfirm("Confirm me?", "Ok", "Cancel", function(res) {
-      if (res) n.add(id(), "done", "Confirmed", 3000);
-      else n.add(id(), "error", "Canceled", 3000)
+    n.add(id(), "confirm", "Confirm me?", 0, {
+      cancel_label: "Cancel",
+      confirm_label: "Ok"
+    }, function(event, res) {
+      if (event == "auto" || event == "user") {
+        n.add(id(), "error", "You closed the message", 3000)
+      } else {
+        if (res) n.add(id(), "done", "Confirmed", 3000);
+        else n.add(id(), "error", "Canceled", 3000)
+      }
       setTimeout(prompt2, 3000)
     })
   }
   setTimeout(prompt1, (i + 1) * m)
   setTimeout(prompt2, (i + 2) * m)
-    //delay("in", "in")
 </script>
 
 </html>

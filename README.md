@@ -11,5 +11,5 @@ To see the examples open `index.html` in your browser
 - [ ] Remove useless functions
 - [ ] Escape all the HTML
 - [ ] Use better API
-- [ ] Write Gulpfile
+- [x] Write Gulpfile
 - [ ] Write Docs

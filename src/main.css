@@ -53,11 +53,13 @@
 
 /* Notification types */
 .notification-ask .notification-icon { background-color: #f39c12; }
+.notification-prompt .notification-icon { background-color: #f39c12; }
+.notification-confirm .notification-icon { background-color: #f39c12; }
 .notification-info .notification-icon { font-size: 22px; font-weight: bold; background-color: #2980b9; line-height: 48px }
 .notification-done .notification-icon { font-size: 22px; background-color: #27ae60 }
 
 /* Notification input */
-.notification .input { padding: 6px; border: 1px solid #DDD; margin-left: 10px; border-bottom: 2px solid #DDD; border-radius: 1px; margin-right: -11px; transition: all 0.3s }
+.notification .input { padding: 6px; border: 1px solid #DDD; margin-left: 10px; border-bottom: 2px solid #DDD; border-radius: 1px; margin-right: -5px; transition: all 0.3s }
 .notification .input:focus { border-color: #95a5a6; outline: none }
 
 /* Notification progress */
