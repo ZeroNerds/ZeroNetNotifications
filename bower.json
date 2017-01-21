@@ -1,0 +1,25 @@
+{
+  "name": "zeronet-notifications",
+  "homepage": "https://github.com/mkg20001/ZeroNetNotifications",
+  "authors": [
+    "mkg20001 <mkg20001@gmail.com>"
+  ],
+  "description": "ZeroNet Notifications, extracted from ZeroNet",
+  "main": "dist/main.js",
+  "keywords": [
+    "notifications",
+    "prompts"
+  ],
+  "license": "GPL-3.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery.easing": "^1.3.1",
+    "jquery": "^3.1.1"
+  }
+}

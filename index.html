@@ -3,7 +3,7 @@
 
 <head>
   <title>ZeroNetNotifications | Try it!</title>
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="dist/zeronet-notifications.css">
   <style>
     body {
       margin: 0;
@@ -32,11 +32,9 @@
   </div>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.1.1.js"></script>
-<script src="jquery.cssanim.js"></script>
-<script src="jquery.easing.1.3.js"></script>
-<script src="jquery.csslater.js"></script>
-<script src="Notifications.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/jquery.easing/js/jquery.easing.min.js"></script>
+<script src="dist/zeronet-notifications.js"></script>
 <script>
   const n = new Notifications($(".notifications"))
   var i = 0
