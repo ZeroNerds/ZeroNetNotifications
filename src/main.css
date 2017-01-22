@@ -15,8 +15,6 @@
 
 /* Notification */
 
-.notificationTemplate { display: none !important }
-
 .notifications { position: absolute; top: 0; right: 80px; display: inline-block; z-index: 999; white-space: nowrap }
 .notification {
 	position: relative; float: right; clear: both; margin: 10px; box-sizing: border-box; overflow: hidden; backface-visibility: hidden; perspective: 1000px; padding-bottom: 5px;

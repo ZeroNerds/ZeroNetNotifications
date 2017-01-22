@@ -1,5 +1,13 @@
+template="""
+    <div class="notification"><span class="notification-icon">!</span> <span class="body">Test notification</span><a class="close" href="#Close">&times;</a>
+      <div style="clear: both"></div>
+    </div>
+"""
+
 class Notifications
 	constructor: (@elem) ->
+		if typeof(jQuery)!="function"
+			throw new Error("jQuery Required!")
 		@
 
 	ids: {}
@@ -80,8 +88,7 @@ class Notification
 		@main.register(@id,@) #register
 
 		# Create element
-		@elem = $(".notification.notificationTemplate", @main_elem).clone().removeClass("notificationTemplate") # TODO: get elem from notifications
-		@elem.addClass("notification-#{@type}").addClass("notification-#{@id}")
+		@elem = $(template)
 		if @isProgress
 			@elem.addClass("notification-done")
 		# Update text
