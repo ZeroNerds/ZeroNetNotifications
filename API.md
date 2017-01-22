@@ -37,7 +37,7 @@ This creates a new Notifications object with the HTML element with class `notifi
 
 `Callback` will be called when the message closes.
 
-Arguments:
+Arguments of the callback:
  - `event` Either `auto` (if Timeout is up) or `user`
   - If `Type` is `progress, confirm, input, list` also `action`
  - `result`
@@ -50,6 +50,38 @@ Arguments:
     - When a list item is clicked: id of the list item
 
 Returns an instance of `Notification`
+
+#### `get(Id, Throw)`
+- `Id` Id of the message
+- `Throw` If true, throws an error if the Id is unregistered
+
+Returns the `Notification` object for `Id`
+
+#### `close(id)`
+ - `Id` of the message
+
+Closes the message `Id`
+Throws an error if the Id is unregistered
+
+#### `closeAll()`
+
+Closes **all** messages
+
+#### `randomId()`
+
+Returns a random message id
+
+#### `displayMessage(Type, Body, Timeout, Callback)`
+
+Same as `add(randomId(), Type, Body,{} , Timeout, Callback)`
+
+#### `displayConfirm(Message, confirm_label, cancel_label, Callback)`
+
+Same as `add(randomId(), "confirm", Message, 0, {confirm_label,cancel_label}, Callback)`
+
+#### `displayPrompt(Message, confirm_label, cancel_label, Callback)`
+
+Same as `add(randomId(), "prompt", Message, 0, {confirm_label,cancel_label}, Callback)`
 
 # Notification
 ### Methods

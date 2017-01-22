@@ -52,16 +52,16 @@ class Notifications
 		return
 
 	randomId: ->
-		return "msg"+Math.random().toString().replace(/0/g,"").replace(/./g,"")
+		return "msg"+Math.random().toString().replace(/0/g,"").replace(/\./g,"")
 
-	displayMessage: (type, body, timeout,cb) ->
+	displayMessage: (type, body, timeout=0,cb) ->
 		return add(randomId(),type,body,timeout,{},cb)
 
-	displayConfirm: (message, caption, cancel=false, cb) ->
-		return add(randomId(),"confirm",message, 0, {confirm_label:caption,cancel_label:cancel},cb)
+	displayConfirm: (message, confirm_label, cancel_label=false, cb) ->
+		return add(randomId(),"confirm",message, 0, {confirm_label,cancel_label},cb)
 
-	displayPrompt: (message, caption, cancel=false, cb) ->
-		return add(randomId(),"prompt",message, 0, {confirm_label:caption,cancel_label:cancel},cb)
+	displayPrompt: (message, confirm_label, cancel_label=false, cb) ->
+		return add(randomId(),"prompt",message, 0, {confirm_label,cancel_label},cb)
 
 class Notification
 	constructor: (@main,message) -> #(@id, @type, @body, @timeout=0) ->
