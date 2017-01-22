@@ -53,8 +53,6 @@
 
 /* Notification types */
 .notification-ask .notification-icon { background-color: #f39c12; }
-.notification-prompt .notification-icon { background-color: #f39c12; }
-.notification-confirm .notification-icon { background-color: #f39c12; }
 .notification-info .notification-icon { font-size: 22px; font-weight: bold; background-color: #2980b9; line-height: 48px }
 .notification-done .notification-icon { font-size: 22px; background-color: #27ae60 }
 

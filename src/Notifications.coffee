@@ -34,13 +34,30 @@ class Notifications
 		return new Notification @, {id,type,body,timeout,options,cb}
 
 	close: (id) ->
-		@get(id,true).close()
+		@get(id,true).close("script",true)
 
-#	displayConfirm: (message, caption, cancel=false, cb) ->
-#	displayPrompt: (message, type, caption, cb) ->
+	closeAll: () ->
+		main=@
+		Object.keys(@ids).map (p) ->
+			main.close p
+		return
+
+	randomId: ->
+		return "msg"+Math.random().toString().replace(/0/g,"").replace(/./g,"")
+
+	displayMessage: (type, body, timeout,cb) ->
+		return add(randomId(),type,body,timeout,{},cb)
+
+	displayConfirm: (message, caption, cancel=false, cb) ->
+		return add(randomId(),"confirm",message, 0, {confirm_label:caption,cancel_label:cancel},cb)
+
+	displayPrompt: (message, caption, cancel=false, cb) ->
+		return add(randomId(),"prompt",message, 0, {confirm_label:caption,cancel_label:cancel},cb)
 
 class Notification
 	constructor: (@main,message) -> #(@id, @type, @body, @timeout=0) ->
+		@
+
 		@main_elem=@main.elem
 		@options=message.options
 		@cb=message.cb
@@ -62,8 +79,6 @@ class Notification
 
 		@main.register(@id,@) #register
 
-		@
-
 		# Create element
 		@elem = $(".notification.notificationTemplate", @main_elem).clone().removeClass("notificationTemplate") # TODO: get elem from notifications
 		@elem.addClass("notification-#{@type}").addClass("notification-#{@id}")
@@ -74,6 +89,7 @@ class Notification
 
 		body=message.body
 		@body=body
+		@closed=false
 
 		@rebuildMsg ""
 
@@ -233,21 +249,23 @@ class Notification
 			$(".notification-icon", @elem).data("done", true)
 		return @
 
+	setDesign: (char,type) ->
+		$(".notification-icon", @elem).html(char)
+		@elem.addClass("notification-"+type)
+
 	updateText: (type) ->
-		if type == "error"
-			$(".notification-icon", @elem).html("!")
-		else if type == "done"
-			$(".notification-icon", @elem).html("<div class='icon-success'></div>")
-		else if type == "progress"
-			$(".notification-icon", @elem).html("<div class='icon-success'></div>")
-		else if type == "ask" || type == "list" || type == "prompt" || type == "confirm"
-			$(".notification-icon", @elem).html("?")
-		else if type == "info"
-			$(".notification-icon", @elem).html("i")
-		else
-			throw new Error("UnknownNotificationType: Type "+type+" is not known")
+		switch(type)
+			when "error" then @setDesign "!","error"
+			when "done" then @setDesign "<div class='icon-success'></div>","done"
+			when "progress" then @setDesign "<div class='icon-success'></div>","progress"
+			when "ask", "list", "prompt", "confirm" then @setDesign "?","ask"
+			when "info" then @setDesign "i","info"
+			else throw new Error("UnknownNotificationType: Type "+type+" is not known")
 
 	close: (event="auto",cb=false) ->
+		if @closed
+			return
+		@closed=true
 		if (cb||!@called)
 			@callBack event
 		$(".close", @elem).remove() # It's already closing
