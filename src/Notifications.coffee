@@ -1,5 +1,5 @@
 template="""
-    <div class="notification"><span class="notification-icon">!</span> <span class="body">Test notification</span><a class="close" href="#Close">&times;</a>
+    <div class="zNotifications-notification"><span class="notification-icon">!</span> <span class="body">Test notification</span><a class="close" href="#Close">&times;</a>
       <div style="clear: both"></div>
     </div>
 """
@@ -8,6 +8,7 @@ class Notifications
 	constructor: (@elem) ->
 		if typeof(jQuery)!="function"
 			throw new Error("jQuery Required!")
+		@elem.addClass("zNotifications-notifications")
 		@
 
 	ids: {}
@@ -119,18 +120,20 @@ class Notification
 
 		# Animate
 		width = @elem.outerWidth()
-		if not @Timeout then width += 20 # Add space for close button
+		#if not @Timeout then width += 20 # Add space for close button
 		if @elem.outerHeight() > 55 then @elem.addClass("long")
 		@elem.css({"width": "50px", "transform": "scale(0.01)"})
 		@elem.animate({"scale": 1}, 800, "easeOutElastic")
 		@elem.animate({"width": width}, 700, "easeInOutCubic")
 		$(".body", @elem).cssLater("box-shadow", "0px 0px 5px rgba(0,0,0,0.1)", 1000)
+		setTimeout(@resizeBox.bind(@),1500)
+		setTimeout(( -> console.log @id).bind(@),1500)
 
 		# Close button or Confirm button
 		$(".close", @elem).on "click", =>
 			@close("user",true)
 			return false
-		$(".button", @elem).on "click", =>
+		$(".zNotifications-button", @elem).on "click", =>
 			@close()
 			return false
 
@@ -172,13 +175,13 @@ class Notification
 		return @
 
 	buildConfirm: (body,caption,cancel=false) ->
-		button = $("<a href='##{caption}' class='button button-#{caption}'>#{caption}</a>") # Add confirm button
+		button = $("<a href='##{caption}' class='zNotifications-button zNotifications-button-confirm'>#{caption}</a>") # Add confirm button
 		button.on "click", =>
 			@callBack "action",true
 			return false
 		body.append(button)
 		if (cancel)
-			cButton = $("<a href='##{cancel}' class='button button-#{cancel}'>#{cancel}</a>") # Add confirm button
+			cButton = $("<a href='##{cancel}' class='zNotifications-button zNotifications-button-cancel'>#{cancel}</a>") # Add confirm button
 			cButton.on "click", =>
 				@callBack "action",false
 				return false
@@ -189,19 +192,19 @@ class Notification
 
 
 	buildPrompt: (body,caption,cancel=false) ->
-		input = $("<input type='#{@type}' class='input button-#{@type}'/>") # Add input
+		input = $("<input type='text' class='input'/>") # Add input
 		input.on "keyup", (e) => # Send on enter
 			if e.keyCode == 13
 				button.trigger "click" # Response to confirm
 		body.append(input)
 
-		button = $("<a href='##{caption}' class='button button-#{caption}'>#{caption}</a>") # Add confirm button
+		button = $("<a href='##{caption}' class='zNotifications-button zNotifications-button-confirm'>#{caption}</a>") # Add confirm button
 		button.on "click", => # Response on button click
 			@callBack "action",input.val()
 			return false
 		body.append(button)
 		if (cancel)
-			cButton = $("<a href='##{cancel}' class='button button-#{cancel}'>#{cancel}</a>") # Add confirm button
+			cButton = $("<a href='##{cancel}' class='zNotifications-button zNotifications-button-cancel'>#{cancel}</a>") # Add confirm button
 			cButton.on "click", =>
 				@callBack "action",false
 				return false

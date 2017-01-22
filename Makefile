@@ -1,5 +1,6 @@
 build:
 	gulp
+	du -hs dist/*
 clean:
 	rm -fv src/*.js
 	rm -fv src/*.js.map

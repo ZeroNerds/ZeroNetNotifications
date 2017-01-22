@@ -54,7 +54,7 @@
   var p2 = 0
   var pid = id()
   setTimeout(function() {
-    var msg = n.add(pid, "progress", "Progress notification", 3000)
+    var msg = n.add(pid, "progress", "Progress notification (___)", 3000)
     const intv = setInterval(function() {
       msg.setBody("Progress notification (" + p + "/10)").setProgress(p * 10)
       if (p == 10) {
@@ -65,7 +65,7 @@
   }, i * m)
   var pid2 = id()
   setTimeout(function() {
-    var msg2 = n.add(pid2, "progress", "Failing progress notification", 3000)
+    var msg2 = n.add(pid2, "progress", "Failing progress notification (___)", 3000)
     const intv2 = setInterval(function() {
       if (p2 == 5) {
         clearInterval(intv2)
