@@ -93,15 +93,17 @@
   }
 
   function prompt2() {
-    n.add(id(), "confirm", "Confirm me?", 0, {
+    n.add(id(), "confirm", "Restart demo?", 0, {
       cancel_label: "Cancel",
       confirm_label: "Ok"
     }, function(event, res) {
       if (event == "auto" || event == "user") {
         n.add(id(), "error", "You closed the message", 3000)
       } else {
-        if (res) n.add(id(), "done", "Confirmed", 3000);
-        else n.add(id(), "error", "Canceled", 3000)
+        if (res) {
+          n.add(id(), "info", "Reloading...", 3000);
+          setTimeout(window.location.reload.bind(window.location), 2000)
+        } else n.add(id(), "error", "Canceled", 3000)
       }
       setTimeout(prompt2, 3000)
     })

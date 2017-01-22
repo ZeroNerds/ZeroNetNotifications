@@ -9,7 +9,7 @@
     text-decoration: none;
     transition: all 0.5s;
     background-position: left center;
-		display:inline-block;
+    display: inline-block;
 }
 
 .zNotifications-button:hover {
@@ -60,13 +60,27 @@
 
 @media(max-width:1024px) {
     .zNotifications-notifications {
+        right: 40px;
+        top: 0;
+    }
+}
+
+@media(max-width:768px) {
+    .zNotifications-notifications {
         right: 20px;
+        top: 20px;
     }
 }
 
 @media(max-width:425px) {
     .zNotifications-notifications {
-        right: 2px;
+        right: 3px;
+    }
+}
+
+@media(max-width:320px) {
+    .zNotifications-notifications {
+        right: 0px;
     }
 }
 
@@ -87,7 +101,7 @@
     /*border: 1px solid rgba(210, 206, 205, 0.2)*/
 }
 
-.notification-icon {
+.zNotifications-notification .notification-icon {
     display: block;
     width: 50px;
     height: 50px;
@@ -116,11 +130,27 @@
     padding-bottom: 5px;
 }
 
-.zNotifications-notification .body > :not(.message):not(.circle) {
-	margin-top:5px;
+.zNotifications-notification .body> :not(.message):not(.circle) {
+    margin-top: 5px;
 }
 
-.notification.long .body {
+@media(max-width:600px) {
+    .zNotifications-notification .body> :not(.message):not(.circle) {
+        display: block;
+        text-align: center;
+        text-align: -webkit-center;
+        align-items: center;
+    }
+    .zNotifications-notification .body>.message-non-center {
+        display: block;
+        white-space: pre-line;
+        text-align: center;
+        text-align: -webkit-center;
+        align-items: center;
+    }
+}
+
+.zNotifications-notification.long .body {
     padding-top: 10px;
     padding-bottom: 10px
 }
@@ -130,7 +160,7 @@
     vertical-align: middle
 }
 
-.notification.visible {
+.zNotifications-notification.visible {
     max-width: 350px
 }
 
@@ -201,18 +231,18 @@
 
 /* Notification types */
 
-.notification-ask .notification-icon {
+.zNotifications-notification.notification-ask .notification-icon {
     background-color: #f39c12;
 }
 
-.notification-info .notification-icon {
+.zNotifications-notification.notification-info .notification-icon {
     font-size: 22px;
     font-weight: bold;
     background-color: #2980b9;
     line-height: 48px
 }
 
-.notification-done .notification-icon {
+.zNotifications-notification.notification-done .notification-icon {
     font-size: 22px;
     background-color: #27ae60
 }

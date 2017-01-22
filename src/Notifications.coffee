@@ -9,6 +9,7 @@ class Notifications
 		if typeof(jQuery)!="function"
 			throw new Error("jQuery Required!")
 		@elem.addClass("zNotifications-notifications")
+		$(window).on("resize",@resizeAll.bind(@))
 		@
 
 	ids: {}
@@ -49,6 +50,12 @@ class Notifications
 		main=@
 		Object.keys(@ids).map (p) ->
 			main.close p
+		return
+
+	resizeAll: () ->
+		main=@
+		Object.keys(@ids).map (p) ->
+			main.get(p,true).resizeBox()
 		return
 
 	randomId: ->
@@ -127,7 +134,6 @@ class Notification
 		@elem.animate({"width": width}, 700, "easeInOutCubic")
 		$(".body", @elem).cssLater("box-shadow", "0px 0px 5px rgba(0,0,0,0.1)", 1000)
 		setTimeout(@resizeBox.bind(@),1500)
-		setTimeout(( -> console.log @id).bind(@),1500)
 
 		# Close button or Confirm button
 		$(".close", @elem).on "click", =>
@@ -142,7 +148,8 @@ class Notification
 			@close()
 
 	resizeBox: ->
-		@elem.css("width","inherit")
+		@elem[0].style=""
+		#@elem.css("width","inherit")
 
 	callBack: (event,res) ->
 		if @called
@@ -157,7 +164,9 @@ class Notification
 	rebuildMsg: (append) ->
 		@append=$(append)
 		if typeof(@body) == "string"
-			$(".body", @elem).html("<span class='message'>"+@escape(@body)+"</span>").append(@append)
+			$(".body", @elem).html("<span class=\"message\">"+@escape(@body)+"</span>").append(@append)
+			if @isList or @isPrompt or @isConfirm
+				$(".message", @elem).addClass("message-non-center")
 		else
 			$(".body", @elem).html("").append(@body,@append)
 
