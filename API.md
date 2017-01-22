@@ -6,9 +6,9 @@
 ```
 new Notifications($(".notifications"))
 ```
-This creates a new Notifications object with the HTML element with class `notifications` [...]
+This creates a new Notifications object with the HTML element with class `notifications`
 
-### APIs
+### Methods
 #### `notifications.add(Id, Type, Body, Timeout, Options, Callback)`
 `Id` must be a unique id for the message (if empty a new random id is assigned)
 
@@ -25,7 +25,8 @@ This creates a new Notifications object with the HTML element with class `notifi
  - If `Type` is `input`
   - `confirm_label` The label of the confirm button
   - `cancel_label` If set cancel button will be shown, the label of the cancel button
-  - `placeholder` If set, the value of the `placeholder` property for the input
+  - `placeholder` If set, the value of the `placeholder` property of the input field
+  - `type` Default: `text`, value of the `type` property of the input field
  - If `Type` is `confirm`
   - `confirm_label` The label of the confirm button
   - `cancel_label` If set cancel button will be shown, the label of the cancel button
@@ -37,7 +38,8 @@ This creates a new Notifications object with the HTML element with class `notifi
 `Callback` will be called when the message closes.
 
 Arguments:
- - `event` Either `auto` (if Timeout is up) or `user` (If `Type` is `progress,confirm,input` also `action`)
+ - `event` Either `auto` (if Timeout is up) or `user`
+  - If `Type` is `progress, confirm, input, list` also `action`
  - `result`
   - If `Type` is `confirm` and event is `action`
     - Boolean if clicked on `Confirm` (true) or `Cancel` (false)
@@ -50,14 +52,15 @@ Arguments:
 Returns an instance of `Notification`
 
 # Notification
-### APIs
+### Methods
 #### `setBody(Body)`
 Set the notification content to `Body`
 
 #### `setProgress(Progress)`
 If `Type` is `progress`
  - Set the progress of the spinner to `Progress`
-  - If `Progress` is 100% also triggers the `success` animation
+  - If `Progress` is 100% also triggers the `success` animation and timeout
+  - If `Progress` is negative also triggers the `error` animation and timeout
 
 #### `close()`
 Closes the message and triggers the callback

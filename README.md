@@ -7,9 +7,11 @@ The ZeroNet Notifications, extracted from ZeroNet, and with a better API Edit
 To see the examples open `index.html` in your browser
 
 # ToDo
-- [ ] Make `Notifications.add` return an instance of `Notification`
-- [ ] Remove useless functions
-- [ ] Escape all the HTML
-- [ ] Use better API
+- [x] Make `Notifications.add` return an instance of `Notification`
+- [x] Remove useless functions
+- [x] Escape all the HTML
+- [x] Use better API
 - [x] Write Gulpfile
-- [ ] Write Docs
+- [x] Write Docs ([API.md](/API.md))
+- [ ] Fix some bugs
+- [ ] Add `list` type
