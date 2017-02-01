@@ -89,16 +89,21 @@
     float: right;
     clear: both;
     margin: 10px;
-    box-sizing: border-box;
+    box-sizing: content-box;
     overflow: hidden;
     backface-visibility: hidden;
     perspective: 1000px;
     padding-bottom: 5px;
+    min-height: 50px;
     color: #4F4F4F;
     font-family: 'Lucida Grande', 'Segoe UI', Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 20px;
     /*border: 1px solid rgba(210, 206, 205, 0.2)*/
+}
+
+.zNotifications-notification>* {
+    box-sizing: content-box;
 }
 
 .zNotifications-notification .notification-icon {
@@ -120,7 +125,9 @@
     padding-left: 14px;
     padding-right: 60px;
     height: 40px;
+    min-height: 40px;
     vertical-align: middle;
+    box-sizing: content-box;
     display: table;
     background-color: white;
     left: 50px;
@@ -325,13 +332,14 @@
 /* Icons (based on http://nicolasgallagher.com/pure-css-gui-icons/demo/) */
 
 .icon-success {
-    left: 6px;
-    width: 5px;
-    height: 12px;
-    border-width: 0 5px 5px 0;
-    border-style: solid;
-    border-color: white;
-    margin-left: 20px;
-    margin-top: 15px;
-    transform: rotate(45deg)
+    box-sizing: content-box !important;
+    left: 6px !important;
+    width: 5px !important;
+    height: 12px !important;
+    border-width: 0 5px 5px 0 !important;
+    border-style: solid !important;
+    border-color: white !important;
+    margin-left: 20px !important;
+    margin-top: 15px !important;
+    transform: rotate(45deg) !important;
 }

@@ -4,6 +4,7 @@
 <head>
   <title>ZeroNetNotifications | Try it!</title>
   <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/yeti/bootstrap.min.css">
   <link rel="stylesheet" href="dist/zeronet-notifications.css">
   <style>
     body {
@@ -21,12 +22,45 @@
     a {
       color: black
     }
+
+    .inner {
+      margin-left: 32px;
+    }
+
+    .outer {
+      margin-left: 64px;
+      position: fixed;
+      top: 64px;
+      left: 64px;
+    }
+
+    @media(max-width:425px) {
+      .outer {
+        top: 4px;
+        left: 4px;
+        margin-left: 4px;
+      }
+      .inner {
+        margin-left: 8px;
+      }
+    }
   </style>
 </head>
 
 <body>
   <!-- Notifications -->
   <div class="notifications">
+  </div>
+
+  <!-- Content -->
+  <div class="outer">
+    <h1>ZeroNet Notifications</h1>
+    <p>Nice and simple notifications, extracted from the ZeroNet Source Code</p>
+    <br>
+    <div class="inner">
+      <h2><a href="https://github.com/mkg20001/ZeroNetNotifications">» Source on GitHub</a></h2>
+      <h3><a href="https://github.com/HelloZeroNet/ZeroNet/tree/master/src/Ui/media">» Original Code from ZeroNet</a></h3>
+    </div>
   </div>
 </body>
 
@@ -106,8 +140,29 @@
       setTimeout(prompt2, 3000)
     })
   }
+
+  /*function prompt3() {
+    n.add(id(), "confirm", "Visit GitHub Page?", 0, {
+      cancel_label: "Cancel",
+      confirm_label: "Ok"
+    }, function(event, res) {
+      if (event == "auto" || event == "user") {
+        n.add(id(), "error", "You closed the message", 3000)
+      } else {
+        if (res) {
+          n.add(id(), "info", "Loading...", 3000);
+          setTimeout(function() {
+            window.location.href = "https://github.com/mkg20001/ZeroNetNotifications"
+          }, 2000)
+        } else n.add(id(), "error", "Canceled", 3000)
+      }
+      setTimeout(prompt3, 3000)
+    })
+  }*/
+
   setTimeout(prompt1, (i + 1) * m)
   setTimeout(prompt2, (i + 2) * m)
+  //setTimeout(prompt3, (i + 3) * m)
 </script>
 
 </html>
