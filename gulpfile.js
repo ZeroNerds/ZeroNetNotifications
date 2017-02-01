@@ -33,7 +33,7 @@ gulp.task("js", function () {
 })
 
 gulp.task("allJS", function () {
-  gulp.src(["src/*.coffee", "bower_components/jquery/dist/jquery.min.js", "bower_components/jquery.easing/js/jquery.easing.min.js"])
+  gulp.src(["bower_components/jquery/dist/jquery.min.js", "bower_components/jquery.easing/js/jquery.easing.min.js", "src/*.coffee"])
     //Build *.coffee files, add libs & uglify => all.min.js
     .pipe($.if("*.coffee", $.coffee()))
     .pipe($.uglify())
