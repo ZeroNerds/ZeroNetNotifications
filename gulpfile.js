@@ -18,17 +18,26 @@ gulp.task("devJS", function () {
     .pipe(gulp.dest(dist))
 })
 
-gulp.task("js", function () {
+gulp.task("js", ["jsmin"], function () {
   gulp.src("src/*.coffee")
     //Build *.coffee files & sourcemaps => js
     .pipe($.sourcemaps.init())
     .pipe($.coffee())
     .pipe($.concat("zeronet-notifications.js"))
-    .pipe($.sourcemaps.write())
+    .pipe($.sourcemaps.write("."))
     .pipe(gulp.dest(dist))
+})
+
+gulp.task("jsmin", function () {
+  gulp.src("src/*.coffee")
+    //Build *.coffee files & sourcemaps => js
+    .pipe($.sourcemaps.init())
+    .pipe($.coffee())
+    .pipe($.concat("zeronet-notifications.js"))
     //Uglifiy => min.js
     .pipe($.concat("zeronet-notifications.min.js"))
     .pipe($.uglify())
+    .pipe($.sourcemaps.write("."))
     .pipe(gulp.dest(dist))
 })
 
@@ -47,12 +56,21 @@ gulp.task("devCSS", function () {
     .pipe(gulp.dest(dist))
 })
 
-gulp.task("css", function () {
+gulp.task("css", ["cssmin"], function () {
   gulp.src("src/*.css")
+    .pipe($.sourcemaps.init())
     .pipe($.concat("zeronet-notifications.css"))
+    .pipe($.sourcemaps.write("."))
     .pipe(gulp.dest(dist))
+})
+
+gulp.task("cssmin", function () {
+  gulp.src("src/*.css")
+    .pipe($.sourcemaps.init())
+    .pipe($.concat("zeronet-notifications.css"))
     .pipe($.cleanCss())
     .pipe($.concat("zeronet-notifications.min.css"))
+    .pipe($.sourcemaps.write("."))
     .pipe(gulp.dest(dist))
 })
 
