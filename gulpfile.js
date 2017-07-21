@@ -44,9 +44,11 @@ gulp.task("jsmin", function () {
 gulp.task("allJS", function () {
   gulp.src(["bower_components/jquery/dist/jquery.min.js", "bower_components/jquery.easing/js/jquery.easing.min.js", "src/*.coffee"])
     //Build *.coffee files, add libs & uglify => all.min.js
+    .pipe($.sourcemaps.init())
     .pipe($.if("*.coffee", $.coffee()))
     .pipe($.uglify())
     .pipe($.concat("zeronet-notifications.all.min.js"))
+    .pipe($.sourcemaps.write("."))
     .pipe(gulp.dest(dist))
 })
 
