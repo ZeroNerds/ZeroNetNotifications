@@ -64,30 +64,30 @@
 
 <script src="dist/zeronet-notifications.all.min.js"></script>
 <script>
-  const n = new Notifications($(".notifications"))
+  const n = new Notifications($('.notifications'))
   var i = 0
   const m = 500
 
-  function id() {
-    return "msg" + (i++)
+  function id () {
+    return 'msg' + (i++)
   }
 
-  function delay(b, c, d) {
+  function delay (b, c, d) {
     const a = id()
     setTimeout(n.add.bind(n), i * m, a, b, c, d)
     return a
   }
-  delay("done", "Success notification", 0)
-  delay("error", "Error notification", 0)
-  delay("info", "Info notification", 0)
-  delay("ask", "Ask notification", 0)
+  delay('done', 'Success notification', 0)
+  delay('error', 'Error notification', 0)
+  delay('info', 'Info notification', 0)
+  delay('ask', 'Ask notification', 0)
   var p = 0
   var p2 = 0
   var pid = id()
-  setTimeout(function() {
-    var msg = n.add(pid, "progress", "Progress notification (___)", 3000)
-    const intv = setInterval(function() {
-      msg.setBody("Progress notification (" + p + "/10)").setProgress(p * 10)
+  setTimeout(function () {
+    var msg = n.add(pid, 'progress', 'Progress notification (___)', 3000)
+    const intv = setInterval(function () {
+      msg.setBody('Progress notification (' + p + '/10)').setProgress(p * 10)
       if (p == 10) {
         clearInterval(intv)
       }
@@ -95,51 +95,51 @@
     }, 1000)
   }, i * m)
   var pid2 = id()
-  setTimeout(function() {
-    var msg2 = n.add(pid2, "progress", "Failing progress notification (___)", 3000)
-    const intv2 = setInterval(function() {
+  setTimeout(function () {
+    var msg2 = n.add(pid2, 'progress', 'Failing progress notification (___)', 3000)
+    const intv2 = setInterval(function () {
       if (p2 == 5) {
         clearInterval(intv2)
         p2 = -1
       }
-      msg2.setBody("Failing progress notification (" + p2 + "/5)").setProgress(p2 * 10)
+      msg2.setBody('Failing progress notification (' + p2 + '/5)').setProgress(p2 * 10)
       p2++
     }, 1000)
   }, i * m)
-  delay("info", "Auto closing notification", 5000)
+  delay('info', 'Auto closing notification', 5000)
 
-  function prompt1() {
-    n.add(id(), "prompt", "Type something", 0, {
-      cancel_label: "Cancel",
-      confirm_label: "Ok"
-    }, function(event, res) {
-      if (event == "auto" || event == "user" || typeof res == "boolean") {
-        n.add(id(), "error", "You " + (event == "user" ? "closed" : "canceled") + " the message", 3000)
+  function prompt1 () {
+    n.add(id(), 'prompt', 'Type something', 0, {
+      cancel_label: 'Cancel',
+      confirm_label: 'Ok'
+    }, function (event, res) {
+      if (event == 'auto' || event == 'user' || typeof res === 'boolean') {
+        n.add(id(), 'error', 'You ' + (event == 'user' ? 'closed' : 'canceled') + ' the message', 3000)
       } else {
-        n.add(id(), res ? "done" : "error", res ? ("You typed: " + res) : "You typed, nothing!", 3000)
+        n.add(id(), res ? 'done' : 'error', res ? ('You typed: ' + res) : 'You typed, nothing!', 3000)
       }
       setTimeout(prompt1, 3000)
     })
   }
 
-  function prompt2() {
-    n.add(id(), "confirm", "Restart demo?", 0, {
-      cancel_label: "Cancel",
-      confirm_label: "Ok"
-    }, function(event, res) {
-      if (event == "auto" || event == "user") {
-        n.add(id(), "error", "You closed the message", 3000)
+  function prompt2 () {
+    n.add(id(), 'confirm', 'Restart demo?', 0, {
+      cancel_label: 'Cancel',
+      confirm_label: 'Ok'
+    }, function (event, res) {
+      if (event == 'auto' || event == 'user') {
+        n.add(id(), 'error', 'You closed the message', 3000)
       } else {
         if (res) {
-          n.add(id(), "info", "Reloading...", 3000);
+          n.add(id(), 'info', 'Reloading...', 3000)
           setTimeout(window.location.reload.bind(window.location), 2000)
-        } else n.add(id(), "error", "Canceled", 3000)
+        } else n.add(id(), 'error', 'Canceled', 3000)
       }
       setTimeout(prompt2, 3000)
     })
   }
 
-  /*function prompt3() {
+  /* function prompt3() {
     n.add(id(), "confirm", "Visit GitHub Page?", 0, {
       cancel_label: "Cancel",
       confirm_label: "Ok"
@@ -156,11 +156,11 @@
       }
       setTimeout(prompt3, 3000)
     })
-  }*/
+  } */
 
   setTimeout(prompt1, (i + 1) * m)
   setTimeout(prompt2, (i + 2) * m)
-  //setTimeout(prompt3, (i + 3) * m)
+  // setTimeout(prompt3, (i + 3) * m)
 </script>
 
 </html>
