@@ -23,6 +23,6 @@
     "jquery": "^3.2.1"
   },
   "devDependencies": {
-    "qunit": "^2.4.0"
+    "qunit": "^2.4.1"
   }
 }
