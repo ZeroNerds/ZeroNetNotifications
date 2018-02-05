@@ -1,85 +1,96 @@
+'use strict'
+
 const gulp = require('gulp')
 const $ = require('gulp-load-plugins')()
 const del = require('del')
-const runSequence = require('run-sequence')
+
+const uc = require('gulp-uglify/composer')
+const es = require('uglify-es')
+const ugl = uc(es, console)
 
 const dist = 'dist'
 
-gulp.task('clean', function () {
+function clean () {
   return del(dist)
-})
+}
 
-gulp.task('devJS', function () {
-  gulp.src('src/*.coffee')
-    .pipe($.sourcemaps.init())
-    .pipe($.coffee())
-    .pipe($.concat('zeronet-notifications.js'))
-    .pipe($.sourcemaps.write())
+function write () {
+  return $.sourcemaps.write()
     .pipe(gulp.dest(dist))
-})
+}
 
-gulp.task('js', ['jsmin'], function () {
-  gulp.src('src/*.coffee')
+function cof () {
+  return $.coffee()
+}
+
+function devJS () {
+  return gulp.src('src/*.coffee')
+    .pipe($.sourcemaps.init())
+    .pipe(cof())
+    .pipe($.concat('zeronet-notifications.js'))
+    .pipe(write())
+}
+
+function js () {
+  return gulp.src('src/*.coffee')
     // Build *.coffee files & sourcemaps => js
     .pipe($.sourcemaps.init())
-    .pipe($.coffee())
+    .pipe(cof())
     .pipe($.concat('zeronet-notifications.js'))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(dist))
-})
+    .pipe(write())
+}
 
-gulp.task('jsmin', function () {
-  gulp.src('src/*.coffee')
+function jsmin () {
+  return gulp.src('src/*.coffee')
     // Build *.coffee files & sourcemaps => js
     .pipe($.sourcemaps.init())
-    .pipe($.coffee())
-    .pipe($.concat('zeronet-notifications.js'))
+    .pipe(cof())
     // Uglifiy => min.js
     .pipe($.concat('zeronet-notifications.min.js'))
-    .pipe($.uglify())
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(dist))
-})
+    .pipe(ugl())
+    .pipe(write())
+}
 
-gulp.task('allJS', function () {
-  gulp.src(['bower_components/jquery/dist/jquery.min.js', 'bower_components/jquery.easing/js/jquery.easing.min.js', 'src/*.coffee'])
+function allJS () {
+  return gulp.src(['bower_components/jquery/dist/jquery.min.js', 'bower_components/jquery.easing/js/jquery.easing.min.js', 'src/*.coffee'])
     // Build *.coffee files, add libs & uglify => all.min.js
     .pipe($.sourcemaps.init())
-    .pipe($.if('*.coffee', $.coffee()))
-    .pipe($.uglify())
+    .pipe($.if('*.coffee', cof()))
+    .pipe(ugl())
     .pipe($.concat('zeronet-notifications.all.min.js'))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(dist))
-})
+    .pipe(write())
+}
 
-gulp.task('devCSS', function () {
-  gulp.src('src/*.css')
-    .pipe($.concat('zeronet-notifications.css'))
-    .pipe(gulp.dest(dist))
-})
-
-gulp.task('css', ['cssmin'], function () {
-  gulp.src('src/*.css')
+function devCSS () {
+  return gulp.src('src/*.css')
     .pipe($.sourcemaps.init())
     .pipe($.concat('zeronet-notifications.css'))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(dist))
-})
+    .pipe(write())
+}
 
-gulp.task('cssmin', function () {
-  gulp.src('src/*.css')
+function css () {
+  return gulp.src('src/*.css')
+    .pipe($.sourcemaps.init())
+    .pipe($.concat('zeronet-notifications.css'))
+    .pipe(write())
+}
+
+function cssmin () {
+  return gulp.src('src/*.css')
     .pipe($.sourcemaps.init())
     .pipe($.concat('zeronet-notifications.css'))
     .pipe($.cleanCss())
     .pipe($.concat('zeronet-notifications.min.css'))
-    .pipe($.sourcemaps.write('.'))
-    .pipe(gulp.dest(dist))
-})
+    .pipe(write())
+}
 
-gulp.task('dev', ['clean'], function () {
-  return runSequence(['devJS', 'devCSS'])
-})
+function watch () {
+  gulp.watch('src/*.coffee', devJS)
+  gulp.watch('src/*.css', devCSS)
+}
 
-gulp.task('default', ['clean'], function () {
-  return runSequence(['js', 'allJS', 'css'])
-})
+Object.assign(exports, {clean, devJS, devCSS, js, jsmin, css, cssmin, allJS, watch})
+
+gulp.task('dev', gulp.series(clean, gulp.parallel(devJS, devCSS)))
+gulp.task('default', gulp.series(clean, gulp.parallel(js, jsmin, allJS, css, cssmin)))
+gulp.task('w', gulp.series(clean, gulp.parallel(devJS, devCSS), watch))
