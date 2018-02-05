@@ -1,6 +1,6 @@
 {
   "name": "zeronet-notifications",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "ZeroNet Notifications",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,10 @@
   },
   "homepage": "https://github.com/mkg20001/ZeroNetNotifications#readme",
   "dependencies": {
+    "jquery": "^3.3.1",
+    "jquery.easing": "^1.4.1"
+  },
+  "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^4.0.0",
     "gulp-clean-css": "^3.9.2",

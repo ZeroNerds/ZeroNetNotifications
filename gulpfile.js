@@ -52,7 +52,7 @@ function jsmin () {
 }
 
 function allJS () {
-  return gulp.src(['bower_components/jquery/dist/jquery.min.js', 'bower_components/jquery.easing/js/jquery.easing.min.js', 'src/*.coffee'])
+  return gulp.src(['node_modules/jquery/dist/jquery.min.js', 'node_modules/jquery.easing/jquery.easing.min.js', 'src/*.coffee'])
     // Build *.coffee files, add libs & uglify => all.min.js
     .pipe($.sourcemaps.init())
     .pipe($.if('*.coffee', cof()))
